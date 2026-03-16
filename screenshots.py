@@ -1,4 +1,4 @@
-from FrameSaver.ss_function import Screenshooter
+from ss_function import Screenshooter
 
 # USTAWIENIA
 SOURCE = 'https://youtu.be/1ieoJnt8grw'
