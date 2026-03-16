@@ -1,0 +1,9 @@
+#
+# screenshots.py -- program ktory opdalamy, mamy w nim zmienne,
+#                   ktore mozna modyfikowac ( np. adres url streama itp)
+#
+# ss_function.py -- plik zawierajacy funkcje - nic tu nie zmianiamy
+#
+# ss -- folder w ktorym zapisywane sa screeny
+#
+# 
