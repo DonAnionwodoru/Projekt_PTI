@@ -6,4 +6,18 @@
 #
 # ss -- folder w ktorym zapisywane sa screeny
 #
-# 
+# INSTRUKCJA :
+# ustawiamy zmienna SOURCE na adres URL streama,
+# dtime - odstep czasowy miedzy kolejnymi screenami,
+# max_frames - ilosc screenow jaka chcemy zeby program zrobil,
+# FOLDER_NAME - nazwa istniejacego folderu, ktory bedzie w tej
+#               samej lokalizacji w ktorej odpalamy nasz program
+#               w tym folderze zapisza sie screeny
+# settings - tutaj mozemy ustawic jakosc screenow
+#
+# zeby opdalic program potrzebujemy miec pobranego i skonfigurowanego
+# pythona3, oraz nastepujace biblioteki:
+# cv2, time, vidgear, yt_dlp
+#
+# pobieranie bibliotek bywa podchwytliwe, ale w razie problemow ChatGPT jest bardzo pomocny
+# po skonfigurowaniu wszystkiego odpalamy program i zostawiamy az sie skonczy
