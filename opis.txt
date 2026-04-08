@@ -14,7 +14,16 @@
 #               samej lokalizacji w ktorej odpalamy nasz program
 #               w tym folderze zapisza sie screeny
 # settings - tutaj mozemy ustawic jakosc screenow
-#
+# 
+# Start_time - array int[2] w formacie [godzina, minuta] np 
+#               14:00 -> [14,0]; 2:00 -> [2,0]. To ustawienie
+#               oznacza czas w ktorym program zacznie swoje dzialanie
+#               jezeli chcemy zeby program zaczal dzialac od razu
+#               usuwamy ten parametr z funkcji, lub ustawiamy ujemna godzine
+#               jezeli np jest godzina 23:00, a ustawiona w parametrze
+#               godzina to 2:00, (tzn podany czas < obecny czas )
+#               progra zalozy ze chodzi o kolejna taka godzine, tzn
+#               w tym wypadku zaczeka 3 godziny
 # zeby opdalic program potrzebujemy miec pobranego i skonfigurowanego
 # pythona3, oraz nastepujace biblioteki:
 # cv2, time, vidgear, yt_dlp
