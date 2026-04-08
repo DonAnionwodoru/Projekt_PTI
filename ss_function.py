@@ -1,25 +1,32 @@
 import cv2
-import time
+import time as Time
+from datetime import datetime, time, timedelta
 from vidgear.gears import CamGear
 import yt_dlp
 
-def Screenshooter(URL, settings, dtime ,max_frames, FOLDER_NAME ,IsStream=True):
-    STREAM_URL = None
-    VIDEO_URL = None
-    if IsStream:
-        STREAM_URL = URL
-    else:
-        VIDEO_URL = URL
-    #
+def Screenshooter(URL, settings, dtime ,max_frames, FOLDER_NAME, start_time=[-1,-1]):
+    # czekamy do podanej godziny, jezeli jest po tej godzinie nie czekamy wgl
+    if start_time[0] >= 0 and start_time[1] >= 0:
+        now = datetime.now()
+        target_time = time(start_time[0],start_time[1])
+        target_dt = datetime.combine(now.date(), target_time)
+        if now.time() > target_time:
+            target_dt = target_dt.replace(day=target_dt.day + 1)
+        waittime = (target_dt - now).total_seconds()
+        print(f"current time: {now.time()} | target time: {target_dt.time()}")
+        print(f"waiting {int(waittime/3600)}:{int((waittime%3600)/60)}:{int((waittime%3600)%60)}...")
+        Time.sleep(waittime)
+
+   #
+    STREAM_URL = URL
     dstime = int(dtime*60)
     frame_counter = 0
     # petla dla streama:
-    stream = None
-    while IsStream and frame_counter < max_frames:
+    while frame_counter < max_frames:
         stream = CamGear(source=STREAM_URL, logging=False, stream_mode=True, **settings).start()
         frame = stream.read()
         try:
-            timestamp = int(time.time())
+            timestamp = int(Time.time())
             filename = f"{FOLDER_NAME}/image_{timestamp}.jpg"
             if frame is not None:
                 cv2.imwrite(filename, frame)
@@ -32,35 +39,6 @@ def Screenshooter(URL, settings, dtime ,max_frames, FOLDER_NAME ,IsStream=True):
         finally:
             stream.stop()
         if frame_counter <= max_frames:
-            time.sleep(dstime)
-    if IsStream:
-        stream.stop()
-
-    # dla filmiku na yt:
-    if not IsStream:
-        ydl_opts = {'format': 'best[ext=mp4][height<=720]'}
-        cap = cv2.VideoCapture(URL)
-        if not cap.isOpened():
-            print("failed to open video file")
-        fps = cap.get(cv2.CAP_PROP_FPS)
-        if fps == 0:
-            fps = 30
-        frame_interval = int(fps*dstime)
-        frame_counter = 0
-        current_frame_position = 0
-        # video loop
-        while frame_counter < max_frames:
-            cap.set(cv2.CAP_PROP_POS_FRAMES, current_frame_position)
-            ret, frame = cap.read()
-            if not ret:
-                print("Reached the end of the video.")
-                break
-            filename = f"{FOLDER_NAME}/image_{frame_counter:03d}.jpg"
-            cv2.imwrite(filename, frame)
-            print(f"Saved {frame_counter + 1}/{max_frames} -- {filename}")
-            frame_counter += 1
-            current_frame_position += frame_interval
-        cap.release()
-
+            Time.sleep(dstime)
     # zakonczenie dzialania funkcji
     print("Process stopped")
